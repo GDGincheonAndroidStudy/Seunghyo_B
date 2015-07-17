@@ -13,9 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by SeungHyo on 2015-07-17.
@@ -38,8 +37,7 @@ import java.util.List;
 public class ForecastFragment extends Fragment {
 
     private RecyclerView recyclerView;
-
-    private ArrayAdapter<String> mForecastAdapter;
+    private RecyclerAdapter mAdapter;
 
     public ForecastFragment() {
     }
@@ -55,7 +53,7 @@ public class ForecastFragment extends Fragment {
         inflater.inflate(R.menu.forecastfragment, menu);
     }
 
-   /* @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
@@ -64,7 +62,7 @@ public class ForecastFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,16 +96,18 @@ public class ForecastFragment extends Fragment {
 
     private void initData() {
 
-        List<ForecastItem> forecastItem = new ArrayList<ForecastItem>();
+        ArrayList<ForecastItem> forecastItem = new ArrayList<ForecastItem>();
 
-        for(int i = 0 ; i < 20; i++) {
+        for(int i = 0 ; i < 7; i++) {
             ForecastItem item = new ForecastItem();
             item.setForecast_text("Test" + i);
             item.setImage(R.mipmap.ic_launcher);
             forecastItem.add(item);
         }
 
-        recyclerView.setAdapter(new RecyclerAdapter(forecastItem,R.layout.forecast_item));
+        mAdapter = new RecyclerAdapter(forecastItem,R.layout.forecast_item);
+
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
@@ -128,6 +128,7 @@ public class ForecastFragment extends Fragment {
             String highLowstr = roundedHigh + "/" + roundedLow;
             return highLowstr;
         }
+
         private String [] getWeatherDataFromJson(String forecastJsonStr, int numDays)
                 throws JSONException {
             final String OWM_LIST = "list";
@@ -173,7 +174,7 @@ public class ForecastFragment extends Fragment {
             }
 
             for(String s : resultStrs) {
-                Log.v(LOG_TAG, "Foreast entry : " + s);
+                Log.v(LOG_TAG, "Forecast entry : " + s);
             }
             return resultStrs;
 
@@ -291,11 +292,13 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] result) {
             if(result != null) {
-                mForecastAdapter.clear();
+                mAdapter.clear();
                 for(String dayForecastStr : result) {
-                    mForecastAdapter.add(dayForecastStr);
+                    mAdapter.add(dayForecastStr);
                 }
             }
         }
     }
 }
+
+

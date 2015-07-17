@@ -7,25 +7,39 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by SeungHyo on 2015-07-17.
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    private List<ForecastItem> forecastItem;
+    private ArrayList<ForecastItem> forecastItem = new ArrayList<>();
     private int itemLayout;
 
-    public RecyclerAdapter(List<ForecastItem> items, int itemLayout) {
+    public RecyclerAdapter(ArrayList<ForecastItem> items, int itemLayout) {
 
         this.forecastItem = items;
         this.itemLayout = itemLayout;
     }
 
+
     @Override
     public int getItemCount() {
         return forecastItem.size();
+    }
+
+    public int add(String forecast_Text) {
+        ForecastItem item = new ForecastItem();
+        item.setForecast_text(forecast_Text);
+        forecastItem.add(item);
+    }
+
+    public void clear() {
+        ForecastItem item = new ForecastItem();
+        item.setForecast_text("");
+        item.setImage(R.mipmap.ic_launcher);
+        forecastItem.add(item);
     }
 
     @Override
