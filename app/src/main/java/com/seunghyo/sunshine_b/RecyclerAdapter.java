@@ -23,6 +23,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.itemLayout = itemLayout;
     }
 
+    public ForecastItem getItem(int position) {
+        return forecastItem.get(position);
+    }
 
     @Override
     public int getItemCount() {
