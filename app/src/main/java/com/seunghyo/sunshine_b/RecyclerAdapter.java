@@ -34,16 +34,175 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-    public void add(ArrayList list, ForecastItem Item, String forecast_Text) {
-        Item.setForecast_text(forecast_Text);
-        list.add(Item);
-    }
+    public void add(ArrayList list, ForecastItem Item, String forecast_Text, String description) {
 
-    public void clear() {
-        ForecastItem item = new ForecastItem();
-        item.setForecast_text("");
-        item.setImage(R.mipmap.ic_launcher);
-        forecastItem.add(item);
+        String data = description;
+
+        Item.setForecast_text(forecast_Text);
+
+
+        switch (data) {
+            case "thunderstorm with light rain" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm with rain" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm with heavy rain" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "light thunderstorm" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "heavy thunderstorm" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "ragged thunderstorm" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm with light drizzle" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm with drizzle" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "thunderstorm with heavy drizzle" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "light intensity drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "heavy intensity drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "light intensity drizzle rain" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "drizzle rain" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "heavy intensity drizzle rain" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "shower rain and drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "heavy shower rain and drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "light rain" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "moderate rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "heavy intensity rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "very heavy rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "extreme rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "freezing rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "light intensity shower rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "shower rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "heavy intensity shower rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "ragged shower rain" :
+                Item.setImage(R.drawable.rain);
+                break;
+            case "light snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "heavy snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "sleet" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "shower sleet" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "light rain and snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "rain and snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "light shower snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "shower snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "heavy shower snow" :
+                Item.setImage(R.drawable.snow);
+                break;
+            case "mist" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "smoke" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "haze" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "sand, dust whirls" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "fog" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "sand" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "dust" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "volcanic ash" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "squalls" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "tornado" :
+                Item.setImage(R.drawable.atmosphere);
+                break;
+            case "clear sky" :
+                Item.setImage(R.drawable.clear);
+                break;
+            case "few clouds" :
+                Item.setImage(R.drawable.few);
+                break;
+            case "scattered clouds" :
+                Item.setImage(R.drawable.scattered);
+                break;
+            case "broken clouds" :
+                Item.setImage(R.drawable.broken);
+                break;
+            case "overcast clouds" :
+                Item.setImage(R.drawable.broken);
+                break;
+            default:
+                Item.setImage(R.drawable.clear);
+                break;
+        }
+        list.add(Item);
     }
 
     @Override

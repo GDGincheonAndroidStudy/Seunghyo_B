@@ -142,8 +142,8 @@ public class ForecastFragment extends Fragment {
 
             for (int i = 0; i< weatherArray.length();i++) {
                 String day;
-                String description;
                 String highAndLow;
+                String description;
 
                 JSONObject dayForecast = weatherArray.getJSONObject(i);
 
@@ -167,8 +167,9 @@ public class ForecastFragment extends Fragment {
                 Log.v(LOG_TAG, "Forecast entry : " + s);
             }
             return resultStrs;
-
         }
+
+
 
         @Override
         protected String[] doInBackground(String... params) {
@@ -282,9 +283,11 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] result) {
             if(result != null) {
+                forecastItem.clear();
+                String description = "light rain";
                 for(String dayForecastStr : result) {
                     item = new ForecastItem();
-                    mAdapter.add(forecastItem, item, dayForecastStr);
+                    mAdapter.add(forecastItem, item, dayForecastStr, description);
                 }
                 recyclerView.setAdapter(mAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
