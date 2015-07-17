@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,28 +72,16 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        /*ArrayList<String> weekForecast = new ArrayList<String>();
-
-        weekForecast.add("Today - Sunny - 88 / 63");
-        weekForecast.add("Tommorrow - Foggy - 70 / 46");
-        weekForecast.add("Weds - cloudy - 72 / 63");
-        weekForecast.add("Thurs - Rainy - 64 / 51");
-        weekForecast.add("Fri - Foggy - 70 / 46");
-        weekForecast.add("Sat - Sunny - 76 / 68");
-
-        mForecastAdapter =
-                new ArrayAdapter<String>(
-                        getActivity(),
-                        R.layout.list_item_forecast,
-                        R.id.list_item_forecast_textview,
-                        weekForecast);*/
-
-        //ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        //listView.setAdapter(mForecastAdapter);
-
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         initData();
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemclickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(getActivity(), "OnItemTouchListener", Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
         return rootView;
     }
 
