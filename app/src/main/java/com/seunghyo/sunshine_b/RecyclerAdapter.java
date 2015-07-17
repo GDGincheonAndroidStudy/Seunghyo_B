@@ -29,6 +29,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return forecastItem.size();
     }
 
+
+
     public void add(ArrayList list, ForecastItem Item, String forecast_Text) {
         Item.setForecast_text(forecast_Text);
         list.add(Item);
@@ -69,3 +71,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
 }
+
