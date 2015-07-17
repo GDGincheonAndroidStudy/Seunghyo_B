@@ -5,16 +5,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,12 +29,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SeungHyo on 2015-07-17.
  */
 
 public class ForecastFragment extends Fragment {
+
+    private RecyclerView recyclerView;
 
     private ArrayAdapter<String> mForecastAdapter;
 
@@ -51,7 +55,7 @@ public class ForecastFragment extends Fragment {
         inflater.inflate(R.menu.forecastfragment, menu);
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
@@ -60,7 +64,7 @@ public class ForecastFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,7 +72,7 @@ public class ForecastFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        ArrayList<String> weekForecast = new ArrayList<String>();
+        /*ArrayList<String> weekForecast = new ArrayList<String>();
 
         weekForecast.add("Today - Sunny - 88 / 63");
         weekForecast.add("Tommorrow - Foggy - 70 / 46");
@@ -82,17 +86,35 @@ public class ForecastFragment extends Fragment {
                         getActivity(),
                         R.layout.list_item_forecast,
                         R.id.list_item_forecast_textview,
-                        weekForecast);
+                        weekForecast);*/
 
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
+        //ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        //listView.setAdapter(mForecastAdapter);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        initData();
         return rootView;
+    }
+
+    private void initData() {
+
+        List<ForecastItem> forecastItem = new ArrayList<ForecastItem>();
+
+        for(int i = 0 ; i < 20; i++) {
+            ForecastItem item = new ForecastItem();
+            item.setForecast_text("Test" + i);
+            item.setImage(R.mipmap.ic_launcher);
+            forecastItem.add(item);
+        }
+
+        recyclerView.setAdapter(new RecyclerAdapter(forecastItem,R.layout.forecast_item));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     public class FetchweatherTask extends AsyncTask<String, Void, String[]> {
 
         private final String LOG_TAG = FetchweatherTask.class.getSimpleName();
-
 
         private String getReadableDateString(long time) {
             SimpleDateFormat shortenedDeateFormat = new SimpleDateFormat("EEE MMM dd");
@@ -126,6 +148,7 @@ public class ForecastFragment extends Fragment {
             dayTime = new Time();
 
             String [] resultStrs = new String[numDays];
+
             for (int i = 0; i< weatherArray.length();i++) {
                 String day;
                 String description;
