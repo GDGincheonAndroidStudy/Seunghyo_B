@@ -38,6 +38,8 @@ public class ForecastFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerAdapter mAdapter;
+    ArrayList<ForecastItem> forecastItem = new ArrayList<>();
+    ForecastItem item = new ForecastItem();
 
     public ForecastFragment() {
     }
@@ -67,28 +69,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        /*ArrayList<String> weekForecast = new ArrayList<String>();
-
-        weekForecast.add("Today - Sunny - 88 / 63");
-        weekForecast.add("Tommorrow - Foggy - 70 / 46");
-        weekForecast.add("Weds - cloudy - 72 / 63");
-        weekForecast.add("Thurs - Rainy - 64 / 51");
-        weekForecast.add("Fri - Foggy - 70 / 46");
-        weekForecast.add("Sat - Sunny - 76 / 68");
-
-        mForecastAdapter =
-                new ArrayAdapter<String>(
-                        getActivity(),
-                        R.layout.list_item_forecast,
-                        R.id.list_item_forecast_textview,
-                        weekForecast);*/
-
-        //ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        //listView.setAdapter(mForecastAdapter);
-
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         initData();
         return rootView;
@@ -96,17 +77,13 @@ public class ForecastFragment extends Fragment {
 
     private void initData() {
 
-        ArrayList<ForecastItem> forecastItem = new ArrayList<ForecastItem>();
-
         for(int i = 0 ; i < 7; i++) {
-            ForecastItem item = new ForecastItem();
             item.setForecast_text("Test" + i);
             item.setImage(R.mipmap.ic_launcher);
             forecastItem.add(item);
+            Log.v("ÅÂ±×", "i°ª" + i);
         }
-
         mAdapter = new RecyclerAdapter(forecastItem,R.layout.forecast_item);
-
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -289,12 +266,15 @@ public class ForecastFragment extends Fragment {
 
         }
 
-        @Override
-        protected void onPostExecute(String[] result) {
+       @Override
+       protected void onPostExecute(String[] result) {
             if(result != null) {
                 mAdapter.clear();
                 for(String dayForecastStr : result) {
-                    mAdapter.add(dayForecastStr);
+                    mAdapter.add(forecastItem, item, dayForecastStr);
+                    recyclerView.setAdapter(mAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                 }
             }
         }

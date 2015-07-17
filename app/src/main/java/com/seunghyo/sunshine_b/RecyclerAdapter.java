@@ -29,10 +29,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return forecastItem.size();
     }
 
-    public int add(String forecast_Text) {
-        ForecastItem item = new ForecastItem();
-        item.setForecast_text(forecast_Text);
-        forecastItem.add(item);
+    public void add(ArrayList list, ForecastItem Item, String forecast_Text) {
+        Item.setForecast_text(forecast_Text);
+        list.add(Item);
     }
 
     public void clear() {
