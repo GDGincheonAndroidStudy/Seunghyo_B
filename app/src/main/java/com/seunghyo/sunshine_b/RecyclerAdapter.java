@@ -1,6 +1,7 @@
 package com.seunghyo.sunshine_b;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +35,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-    public void add(ArrayList list, ForecastItem Item, String forecast_Text, String description) {
+    public void add(ArrayList list, ForecastItem Item, String forecast_Text, ArrayList<String> description,int position) {
 
-        String data = description;
+        String data = description.get(position);
 
         Item.setForecast_text(forecast_Text);
 
-
+        Log.d("data", "dd"+ data);
         switch (data) {
             case "thunderstorm with light rain" :
                 Item.setImage(R.drawable.thunder);
@@ -49,6 +50,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Item.setImage(R.drawable.thunder);
                 break;
             case "thunderstorm with heavy rain" :
+                Item.setImage(R.drawable.thunder);
+                break;
+            case "Rain" :
                 Item.setImage(R.drawable.thunder);
                 break;
             case "light thunderstorm" :
