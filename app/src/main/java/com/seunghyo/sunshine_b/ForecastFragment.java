@@ -1,5 +1,6 @@
 package com.seunghyo.sunshine_b;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -77,9 +78,9 @@ public class ForecastFragment extends Fragment {
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemclickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                       // String forecast = mAdapter.getItem(position);
-                      //  Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast);
-                     //   startActivity(intent);
+                        ForecastItem forecast = mAdapter.getItem(forecastItem ,position);
+                        Intent intent = new Intent(getActivity(), DetailActivity.class).putExtra(Intent.EXTRA_TEXT, forecast.returnText());
+                         startActivity(intent);
                     }
                 })
         );
@@ -94,15 +95,16 @@ public class ForecastFragment extends Fragment {
             item.setImage(R.mipmap.ic_launcher);
             forecastItem.add(item);
         }
-
         mAdapter = new RecyclerAdapter(forecastItem,R.layout.forecast_item);
-
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     public class FetchweatherTask extends AsyncTask<String, Void, String[]> {
+
+
+        private ArrayList<String> str_weather = new ArrayList<>();
 
         private final String LOG_TAG = FetchweatherTask.class.getSimpleName();
 
@@ -161,6 +163,7 @@ public class ForecastFragment extends Fragment {
 
                 highAndLow = formatHighLows(high, low);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
+                str_weather.add(description);
             }
 
             for(String s : resultStrs) {
@@ -173,29 +176,22 @@ public class ForecastFragment extends Fragment {
 
         @Override
         protected String[] doInBackground(String... params) {
-
             if(params.length == 0) {
                 return null;
             }
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
-
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-
-// Will contain the raw JSON response as a string.
-
+            // Will contain the raw JSON response as a string.
             String forecastJsonStr = null;
-
             String format = "json";
             String units = "metric";
             int numDays = 7;
-
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are available at OWM's forecast API page, at
                 // http://openweathermap.org/API#forecast
-
                 final String FORECAST_BASE_URL =
                         "http://api.openweathermap.org/data/2.5/forecast/daily?";
                 final String QUERY_PARAM = "q";
@@ -213,7 +209,6 @@ public class ForecastFragment extends Fragment {
                 URL url = new URL(builtUri.toString());
 
                 Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-
                 //URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=Incheon&mode=xml&units=metric&cnt=7");
 
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -225,25 +220,19 @@ public class ForecastFragment extends Fragment {
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
-
                     // Nothing to do.
-
                     return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
-
                     // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                     // But it does make debugging a *lot* easier if you print out the completed
                     // buffer for debugging.
-
                     buffer.append(line + "\n");
                 }
                 if (buffer.length() == 0) {
-
                     // Stream was empty.  No point in parsing.
-
                     return null;
                 }
 
@@ -284,10 +273,10 @@ public class ForecastFragment extends Fragment {
         protected void onPostExecute(String[] result) {
             if(result != null) {
                 forecastItem.clear();
-                String description = "light rain";
-                for(String dayForecastStr : result) {
+                //String description = "light rain";
+                for(int i=0; result.length>i;i++) {
                     item = new ForecastItem();
-                    mAdapter.add(forecastItem, item, dayForecastStr, description);
+                    mAdapter.add(forecastItem, item, result[i], str_weather,i);
                 }
                 recyclerView.setAdapter(mAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -296,6 +285,7 @@ public class ForecastFragment extends Fragment {
         }
     }
 }
+
 
 
 

@@ -23,8 +23,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.itemLayout = itemLayout;
     }
 
-    public ForecastItem getItem(int position) {
-        return forecastItem.get(position);
+    public ForecastItem getItem(ArrayList<ForecastItem> forecastItem, int position) {
+        ForecastItem s = forecastItem.get(position);
+        return s;
     }
 
     @Override
@@ -34,9 +35,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
 
 
-    public void add(ArrayList list, ForecastItem Item, String forecast_Text, String description) {
+    public void add(ArrayList list, ForecastItem Item, String forecast_Text, ArrayList<String> description,int position) {
 
-        String data = description;
+        String data = description.get(position);
 
         Item.setForecast_text(forecast_Text);
 
@@ -81,6 +82,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             case "light intensity drizzle rain" :
                 Item.setImage(R.drawable.drizzle);
                 break;
+            case "Drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
             case "drizzle rain" :
                 Item.setImage(R.drawable.drizzle);
                 break;
@@ -88,6 +92,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Item.setImage(R.drawable.drizzle);
                 break;
             case "shower rain and drizzle" :
+                Item.setImage(R.drawable.drizzle);
+                break;
+            case "Rain" :
                 Item.setImage(R.drawable.drizzle);
                 break;
             case "heavy shower rain and drizzle" :
@@ -196,6 +203,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Item.setImage(R.drawable.broken);
                 break;
             case "overcast clouds" :
+                Item.setImage(R.drawable.broken);
+                break;
+            case "Clouds" :
                 Item.setImage(R.drawable.broken);
                 break;
             default:

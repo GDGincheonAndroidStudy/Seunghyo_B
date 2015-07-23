@@ -23,4 +23,6 @@ public class ForecastItem {
     public void setImage(int image) {
         this.image = image;
     }
+
+    public String returnText() {return forecast_text;}
 }
