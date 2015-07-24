@@ -1,9 +1,11 @@
 package com.seunghyo.sunshine_b;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -60,8 +62,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            FetchweatherTask weatherTask = new FetchweatherTask();
-            weatherTask.execute("Incheon");
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -85,6 +86,19 @@ public class ForecastFragment extends Fragment {
                 })
         );
         return rootView;
+    }
+
+    private void updateWeather() {
+        FetchweatherTask weatherTask = new FetchweatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        weatherTask.execute(location);
+    }
+
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     private void initData() {
@@ -113,7 +127,15 @@ public class ForecastFragment extends Fragment {
             return shortenedDeateFormat.format(time);
         }
 
-        private  String formatHighLows(double high, double low) {
+        private  String formatHighLows(double high, double low, String unitType) {
+
+            if(unitType.equals(getString(R.string.pref_units_imperial))) {
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else if(!unitType.equals(getString(R.string.pref_units_metric))) {
+                Log.d(LOG_TAG, "Unit type not found : " + unitType);
+            }
+
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
@@ -142,6 +164,12 @@ public class ForecastFragment extends Fragment {
 
             String [] resultStrs = new String[numDays];
 
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+            String unitType = sharedPrefs.getString(
+                    getString(R.string.pref_units_key),
+                    getString(R.string.pref_units_metric));
+
             for (int i = 0; i< weatherArray.length();i++) {
                 String day;
                 String highAndLow;
@@ -161,7 +189,7 @@ public class ForecastFragment extends Fragment {
                 double high = temperatureObjet.getDouble(OWM_MAX);
                 double low = temperatureObjet.getDouble(OWM_MIN);
 
-                highAndLow = formatHighLows(high, low);
+                highAndLow = formatHighLows(high, low, unitType);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
                 str_weather.add(description);
             }
