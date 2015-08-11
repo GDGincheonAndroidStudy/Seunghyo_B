@@ -8,17 +8,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Time;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.astuetz.PagerSlidingTabStrip;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +45,10 @@ public class ForecastFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerAdapter mAdapter;
+    private PagerSlidingTabStrip tabs;
+    private ViewPager pager;
+    private PagerAdapter adapter;
+
     ArrayList<ForecastItem> forecastItem = new ArrayList<ForecastItem>();
     ForecastItem item;
 
@@ -74,6 +82,18 @@ public class ForecastFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        tabs = (PagerSlidingTabStrip) rootView.findViewById(R.id.tabs);
+        pager = (ViewPager) rootView.findViewById(R.id.pager);
+        adapter = new PagerAdapter(getActivity().getSupportFragmentManager());
+
+        pager.setAdapter(adapter);
+
+        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+                .getDisplayMetrics());
+        pager.setPageMargin(pageMargin);
+
+        tabs.setViewPager(pager);
+
         initData();
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemclickListener() {

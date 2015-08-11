@@ -18,7 +18,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private int itemLayout;
 
     public RecyclerAdapter(ArrayList<ForecastItem> items, int itemLayout) {
-
         this.forecastItem = items;
         this.itemLayout = itemLayout;
     }
