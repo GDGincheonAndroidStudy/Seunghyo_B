@@ -9,8 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private final String[] TITLES = {"Categories", "Home", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
-            "Top New Free", "Trending"};
+    private final String[] TITLES = {"Seoul", "Incheon", "Daegu", "New York" };
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -29,5 +28,9 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return SuperAwesomeCardFragment.newInstance(position);
+    }
+
+    public String returnString(int i) {
+        return TITLES[i];
     }
 }
